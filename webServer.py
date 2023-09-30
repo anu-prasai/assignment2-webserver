@@ -39,14 +39,14 @@ def webServer(port=13331):
             # Fill in end
 
             # Send the content of the requested file to the client
-            for i in range(0,len(content)) : # for line in file
-                connectionSocket.send(content[i].encode())
+            for i in len(content): # for line in file
+                connectionSocket.send(b"content")
             connectionSocket.close()
 
         except Exception as e:
-                errormessage = b"HTTP/1.1 404 Not Found\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n"
-                connectionSocket.send(errormessage)
-                connectionSocket.close()
+            errormessage = b"HTTP/1.1 404 Not Found\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n"
+            connectionSocket.send(errormessage)
+            connectionSocket.close()
              # Close client socket
             # Fill in start
 
