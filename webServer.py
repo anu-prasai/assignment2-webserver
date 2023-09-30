@@ -27,7 +27,7 @@ def webServer(port=13331):
             f.close()
             #outputdata=b"Content-Type: text/html; charset=UTF-8\r\n"
             connectionSocket.sendall(b'HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n')
-            connectionSocket.send(b"Content-Type: text/html; charset=UTF-8\r\n\r\n")
+            #connectionSocket.send(b"Content-Type: text/html; charset=UTF-8\r\n\r\n")
             #connectionSocket.send(b"Connection: keep-alive\r\n\r\n")
             #connectionSocket.send(b"Server: Windows\r\n\r\n")
             # Fill in start -This variable can store your headers you want to send for any valid or invalid request.
@@ -42,7 +42,7 @@ def webServer(port=13331):
 
             # Send the content of the requested file to the client
             #for i in f: # for line in file
-            connectionSocket.sendall(content.encode())
+            connectionSocket.send(content.encode())
             #print("hello")
             connectionSocket.close()
 
