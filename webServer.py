@@ -16,7 +16,7 @@ def webServer(port=13331):
         connectionSocket, addr = serverSocket.accept()
                          
         try:
-            message = connectionSocket.recv(4096) #recieve 1024 bytes of data from the client
+            message = connectionSocket.recv(1024) #recieve 1024 bytes of data from the client
             filename = message.split()[1]
             # opens the client requested file which would be helloworld.html file
             # Plenty of guidance online on how to open and read a file in python. How should you read it though if you plan on sending it through a socket?
@@ -26,8 +26,8 @@ def webServer(port=13331):
             #print(content)
             f.close()
             #outputdata=b"Content-Type: text/html; charset=UTF-8\r\n"
-            connectionSocket.send(b'HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n')
-            connectionSocket.send(b"Content-Type: text/html; charset=UTF-8\r\n\r\n")
+            connectionSocket.send(b'HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n\r\n')
+            #connectionSocket.send(b"Content-Type: text/html; charset=UTF-8\r\n\r\n")
             #connectionSocket.send(b"Connection: keep-alive\r\n\r\n")
             #connectionSocket.send(b"Server: Windows\r\n\r\n")
             # Fill in start -This variable can store your headers you want to send for any valid or invalid request.
