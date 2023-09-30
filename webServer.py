@@ -16,15 +16,18 @@ def webServer(port=13331):
         connectionSocket, addr = serverSocket.accept()
                          
         try:
-            message = connectionSocket.recv(1024) #recieve 1024 bytes of data from the client
+            message = connectionSocket.recv(4096) #recieve 1024 bytes of data from the client
             filename = message.split()[1]
             # opens the client requested file which would be helloworld.html file
             # Plenty of guidance online on how to open and read a file in python. How should you read it though if you plan on sending it through a socket?
             f = open(filename[1:],)
-            content=f.read(1024)
+            content=f.read(4096)
             f.close()
             #outputdata=b"Content-Type: text/html; charset=UTF-8\r\n"
-            connectionSocket.send(b'HTTP/1.1 200 OK\r\n\r\n')
+            connectionSocket.sendall(b'HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n')
+            connectionSocket.send(b"Content-Type: text/html; charset=UTF-8\r\n\r\n")
+            #connectionSocket.send(b"Connection: keep-alive\r\n\r\n")
+            #connectionSocket.send(b"Server: Windows\r\n\r\n")
             # Fill in start -This variable can store your headers you want to send for any valid or invalid request.
             # Content-Type above is an example on how to send a header as bytes
             # Fill in end
@@ -36,13 +39,12 @@ def webServer(port=13331):
             # Fill in end
 
             # Send the content of the requested file to the client
-            for i in f: # for line in file
+            for i in range(0,len(content)) : # for line in file
                 connectionSocket.send(content[i].encode())
-                connectionSocket.send("\r\n\r\n".encode())
-                connectionSocket.close()
+            connectionSocket.close()
 
         except Exception as e:
-                errormessage = b"HTTP/1.1 404 Not Found\r\n\r\n"
+                errormessage = b"HTTP/1.1 404 Not Found\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n"
                 connectionSocket.send(errormessage)
                 connectionSocket.close()
              # Close client socket
