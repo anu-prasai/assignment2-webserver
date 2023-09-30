@@ -20,8 +20,10 @@ def webServer(port=13331):
             filename = message.split()[1]
             # opens the client requested file which would be helloworld.html file
             # Plenty of guidance online on how to open and read a file in python. How should you read it though if you plan on sending it through a socket?
-            f = open(filename[1:],)
-            content=f.read(4096)
+            f = open(filename[1:],"r")
+            #print(f)
+            content=f.read()
+            #print(content)
             f.close()
             #outputdata=b"Content-Type: text/html; charset=UTF-8\r\n"
             connectionSocket.sendall(b'HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: keep-alive\r\nServer: Windows\r\n')
@@ -39,8 +41,9 @@ def webServer(port=13331):
             # Fill in end
 
             # Send the content of the requested file to the client
-            for i in len(content): # for line in file
-                connectionSocket.send(b"content")
+            #for i in f: # for line in file
+            connectionSocket.sendall(content.encode())
+            #print("hello")
             connectionSocket.close()
 
         except Exception as e:
